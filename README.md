@@ -56,7 +56,7 @@ requiring manual packet-by-packet review.
 The Credentials window displays each detected credential with the packet 
 number, protocol, username, and additional context. In this capture, 
 Wireshark identified repeated FTP authentication attempts using the 
-username **"admin"** across multiple sessions — packets 41, 44, 53, 55, 
+username **"admin"** across multiple sessions - packets 41, 44, 53, 55, 
 78, 86, 119, 124, 126, 170, 210, 223, and 233. Clicking any packet 
 number jumps directly to that packet in the main capture view for 
 deeper inspection.
@@ -67,7 +67,7 @@ deeper inspection.
 - The username "admin" appeared repeatedly across multiple sessions, 
   indicating either credential reuse, brute force activity, or a 
   persistent connection from a compromised account
-- FTP transmits both usernames and passwords in cleartext — meaning 
+- FTP transmits both usernames and passwords in cleartext - meaning 
   anyone with network access or a captured PCAP can recover full 
   credentials with zero decryption required
 - This technique directly applies to SOC investigations involving 
@@ -80,7 +80,7 @@ deeper inspection.
 ### Background
 ICMP and DNS are trusted, essential protocols that most firewalls 
 permit without deep inspection. Attackers exploit this trust to 
-tunnel data and C2 traffic inside these protocols — hiding malicious 
+tunnel data and C2 traffic inside these protocols - hiding malicious 
 activity in plain sight. Identifying these attacks requires knowing 
 what "normal" traffic looks like and applying targeted filters to 
 surface the anomalies.
