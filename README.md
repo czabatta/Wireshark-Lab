@@ -8,7 +8,7 @@ This lab demonstrates two core network forensics techniques used daily in
 SOC environments. In Lab 1, Wireshark's built-in credential extraction 
 feature is used to recover FTP plaintext credentials from a packet capture. 
 In Lab 2, custom display filters are used to identify malicious ICMP 
-tunneling and DNS exfiltration traffic — two techniques commonly used 
+tunneling and DNS exfiltration traffic - two techniques commonly used 
 by attackers to hide C2 communication and data theft inside trusted 
 protocols that most firewalls allow through by default.
 
@@ -27,10 +27,10 @@ protocols that most firewalls allow through by default.
 
 ## Tools & Technologies
 
-- **Wireshark** — Network protocol analyzer and packet capture tool
-- **Display Filters** — `data.len > 64 and icmp`, `dns.qry.name.len > 15 and !mdns`
-- **Tools → Credentials** — Wireshark's built-in plaintext credential parser
-- **PCAP Files** — Pre-captured network traffic files for forensic analysis
+- **Wireshark** - Network protocol analyzer and packet capture tool
+- **Display Filters** - `data.len > 64 and icmp`, `dns.qry.name.len > 15 and !mdns`
+- **Tools → Credentials** - Wireshark's built-in plaintext credential parser
+- **PCAP Files** - Pre-captured network traffic files for forensic analysis
 
 ---
 
@@ -40,7 +40,7 @@ protocols that most firewalls allow through by default.
 Many legacy and misconfigured systems still transmit credentials over 
 unencrypted protocols such as FTP, Telnet, and HTTP. A SOC analyst must 
 be able to rapidly identify and extract these credentials from packet 
-captures during incident investigations — whether investigating a data 
+captures during incident investigations - whether investigating a data 
 breach, an insider threat case, or a compromised host.
 
 ### Investigation
@@ -90,7 +90,7 @@ surface the anomalies.
 ### Part A: ICMP Tunnel Detection
 
 #### Why ICMP?
-Standard ICMP ping packets are tiny — typically under 64 bytes. 
+Standard ICMP ping packets are tiny - typically under 64 bytes. 
 When an attacker embeds a full protocol like SSH inside ICMP payloads 
 to create a covert C2 channel, the packet sizes become abnormally 
 large. This size anomaly is the primary detection indicator.
@@ -107,8 +107,8 @@ data.len > 64 and icmp
 
 
 The filter immediately surfaces a stream of ICMP packets sized between 
-**1028 and 1033 bytes** — dramatically larger than legitimate ping 
-traffic — all flowing between 192.168.154.131 and 192.168.154.132 
+**1028 and 1033 bytes** - dramatically larger than legitimate ping 
+traffic - all flowing between 192.168.154.131 and 192.168.154.132 
 at regular intervals. This pattern is a strong indicator of 
 automated tunneling activity.
 
@@ -119,7 +119,7 @@ one of the flagged packets reveals the embedded payload:
 
 
 The hex dump clearly shows **OpenSSH_5** string data embedded inside 
-the ICMP packet body — definitively confirming that SSH protocol 
+the ICMP packet body - definitively confirming that SSH protocol 
 traffic is being tunneled through ICMP to evade network-layer 
 detection.
 
@@ -136,7 +136,7 @@ C2 communication.
 
 #### Why DNS?
 DNS is one of the most universally permitted protocols on any 
-network — blocking it breaks internet functionality. Attackers 
+network - blocking it breaks internet functionality. Attackers 
 use abnormally long DNS query names to encode data and exfiltrate 
 it to attacker-controlled domains, or to communicate with C2 
 infrastructure while appearing to perform routine DNS lookups.
@@ -150,9 +150,9 @@ and what each one surfaces:
 
 
 Key filters for identifying malicious DNS:
-- `dns` — broad baseline view of all DNS traffic
-- `dns contains "dnscat"` — targets the dnscat C2 tool specifically  
-- `dns.qry.name.len > 15 and !mdns` — surfaces abnormally long 
+- `dns` - broad baseline view of all DNS traffic
+- `dns contains "dnscat"` - targets the dnscat C2 tool specifically  
+- `dns.qry.name.len > 15 and !mdns` - surfaces abnormally long 
   query names while excluding legitimate local mDNS traffic
 
 Applying `dns.qry.name.len > 15 and !mdns` to the capture reveals 
@@ -162,7 +162,7 @@ the exfiltration activity:
 
 
 The filtered results surface DNS queries containing long encoded 
-subdomains being sent to **dataexfil[.]com** — a domain name that 
+subdomains being sent to **dataexfil[.]com** - a domain name that 
 makes no attempt to disguise its purpose. The encoded data is 
 visible in the query strings: `BA7C01B0DE682B2B4554B6000101E88144.dataexfil.com`.
 
